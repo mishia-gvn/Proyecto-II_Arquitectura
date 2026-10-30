@@ -2,23 +2,7 @@
 .stack 100h
 .data  
     modoOriginal db ?
-    spriteGema db \
-    0,0,0,0,0,9,9,9,9,9,9,0,0,0,0,0
-    db 0,0,0,0,9,11,11,11,11,11,11,9,0,0,0,0
-    db 0,0,0,9,11,15,11,11,11,11,11,11,9,0,0,0
-    db 0,0,9,11,15,15,11,11,11,11,11,11,11,9,0,0
-    db 0,9,11,15,15,11,11,11,11,11,11,11,11,11,9,0
-    db 9,11,15,15,11,11,11,11,11,11,11,11,11,11,11,9
-    db 9,11,15,11,11,11,11,11,11,11,11,11,11,11,11,9
-    db 9,11,11,11,11,11,11,11,11,11,11,11,11,11,11,9
-    db 9,11,11,11,11,11,11,11,11,11,11,11,11,11,11,9
-    db 0,9,11,11,11,11,11,11,11,11,11,11,11,11,9,0
-    db 0,0,9,11,11,11,11,11,11,11,11,11,11,9,0,0
-    db 0,0,0,9,11,11,11,11,11,11,11,11,9,0,0,0
-    db 0,0,0,0,9,11,11,11,11,11,11,9,0,0,0,0
-    db 0,0,0,0,0,9,11,11,11,11,9,0,0,0,0,0
-    db 0,0,0,0,0,0,9,11,11,9,0,0,0,0,0,0
-    db 0,0,0,0,0,0,0,9,9,0,0,0,0,0,0,0
+    include gemas.inc
 
 .code
 main proc
@@ -34,13 +18,14 @@ main proc
     mov ax, 0013h
     int 10h
 
-    ; Dibujar prueba
-    ; Parametros: X, Y, ancho, alto y datos del sprite
-    push OFFSET spriteGema
-    push 16                     ; Alto
-    push 16                     ; Ancho
-    push 16                     ; Y
-    push 16                     ; X
+    call ConfigurarPaleta
+
+    ; Dibujar la gema azul en la posicion (50, 50)
+    push OFFSET spriteAzul
+    push 16             ; Alto
+    push 16             ; Ancho
+    push 50             ; Coordenada Y
+    push 50             ; Coordenada X
     call DibujarSprite
 
     ; Esperar una tecla antes de continuar
@@ -55,6 +40,8 @@ main proc
     mov ax, 4C00h
     int 21h 
 main ENDP
+
+; ====================================================================
 
 DibujarSprite PROC
     push bp
@@ -123,6 +110,33 @@ DibujarSprite ENDP
 
 ; ====================================================================
 
+ConfigurarPaleta PROC
+    push ax
+    push cx
+    push si
+    push dx
 
+    mov dx, 03C8h
+    mov al, 1       ; Empezar en el indice 1
+    out dx, al
+
+    inc dx
+    mov si, OFFSET paletaGemas
+    mov cx, 150
+
+CargarColorPaleta:
+    lodsb
+    out dx, al
+    loop CargarColorPaleta
+
+    pop dx
+    pop si
+    pop cx
+    pop ax
+    ret
+
+ConfigurarPaleta ENDP
+
+; ====================================================================
 
 end main
