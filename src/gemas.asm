@@ -70,8 +70,8 @@ vacas                   db 0
 ; 8. HISTORIAL DE INTENTOS
 
 historialGemas          db 60 dup(0)
-historialToros          db 12 dup(0)
-historialVacas          db 12 dup(0)
+historialT              db 12 dup(0)
+historialV              db 12 dup(0)
 historialMarcas         db 60 dup(0)
 
 ; ============================================================
@@ -140,8 +140,8 @@ txtInstruccion3         db '- FLECHAS ARR ABA: CAMBIAR COLOR.$'
 txtInstruccion4         db '- TECLAS 1 A 8: ELEGIR COLOR.$'
 txtInstruccion5         db '- ENTER: CONFIRMAR INTENTO.$'
 txtInstruccion6         db '- BACKSPACE: BORRAR POSICION.$'
-txtInstruccion7         db '- TORO: COLOR Y POSICION CORRECTOS.$'
-txtInstruccion8         db '- VACA: COLOR CORRECTO, OTRO LUGAR.$'
+txtInstruccion7         db '- T: COLOR Y POSICION CORRECTOS.$'
+txtInstruccion8         db '- V: COLOR CORRECTO, OTRO LUGAR.$'
 txtInstruccion9         db '- F2: INTRODUCIR SECRETO MANUAL.$'
 
 ; ============================================================

@@ -241,8 +241,8 @@ LDP_LoopResultados:
     cmp si, 12
     jae LDP_Fin
 
-    mov historialToros[si], 0
-    mov historialVacas[si], 0
+    mov historialT[si], 0
+    mov historialV[si], 0
 
     inc si
     jmp LDP_LoopResultados
@@ -518,7 +518,7 @@ DFH_Resultados:
     mov bl, byte ptr [bp+4]
 
     xor ax, ax
-    mov al, historialToros[bx]
+    mov al, historialT[bx]
 
     push ax
 
@@ -536,7 +536,7 @@ DFH_Resultados:
     mov bl, byte ptr [bp+4]
 
     xor ax, ax
-    mov al, historialVacas[bx]
+    mov al, historialV[bx]
 
     push ax
 
@@ -957,10 +957,10 @@ GI_Resultados:
     mov bl, intentosUsados
 
     mov al, toros
-    mov historialToros[bx], al
+    mov historialT[bx], al
 
     mov al, vacas
-    mov historialVacas[bx], al
+    mov historialV[bx], al
 
     inc intentosUsados
 
