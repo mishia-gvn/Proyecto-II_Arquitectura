@@ -61,6 +61,7 @@ posicionesLlenas        db 5 dup(0)
 
 marcaSecreto            db 5 dup(0)
 marcaJugador            db 5 dup(0)
+marcaResultado          db 5 dup(0)
 
 toros                   db 0
 vacas                   db 0
@@ -68,9 +69,10 @@ vacas                   db 0
 ; ============================================================
 ; 8. HISTORIAL DE INTENTOS
 
-historialGemas          db 50 dup(0)
-historialToros          db 10 dup(0)
-historialVacas          db 10 dup(0)
+historialGemas          db 60 dup(0)
+historialToros          db 12 dup(0)
+historialVacas          db 12 dup(0)
+historialMarcas         db 60 dup(0)
 
 ; ============================================================
 ; 9. VARIABLES DE CONTROL DEL JUGADOR
@@ -94,7 +96,7 @@ opcionTemporal          db 0
 tableroX                db 4
 tableroY                db 22
 separacionX             db 20
-separacionY             db 13
+separacionY             db 16
 
 ; ============================================================
 ; 12. VARIABLES PARA MOSTRAR MENSAJES Y TEXTO
@@ -132,22 +134,22 @@ txtNivelDificil         db 'DIFICIL$'
 ; ============================================================
 ; 15. TEXTOS DE INSTRUCCIONES
 
-txtInstruccion1         db 'ADIVINA LA COMBINACION SECRETA.$'
-txtInstruccion2         db 'FLECHAS IZQ DER: MOVER POSICION.$'
-txtInstruccion3         db 'FLECHAS ARR ABA: CAMBIAR COLOR.$'
-txtInstruccion4         db 'TECLAS 1 A 8: ELEGIR COLOR.$'
-txtInstruccion5         db 'ENTER: CONFIRMAR INTENTO.$'
-txtInstruccion6         db 'BACKSPACE: BORRAR POSICION.$'
-txtInstruccion7         db 'TORO: COLOR Y POSICION CORRECTOS.$'
-txtInstruccion8         db 'VACA: COLOR CORRECTO, OTRO LUGAR.$'
-txtInstruccion9         db 'F2: INTRODUCIR SECRETO MANUAL.$'
+txtInstruccion1         db '- ADIVINA LA COMBINACION SECRETA.$'
+txtInstruccion2         db '- FLECHAS IZQ DER: MOVER POSICION.$'
+txtInstruccion3         db '- FLECHAS ARR ABA: CAMBIAR COLOR.$'
+txtInstruccion4         db '- TECLAS 1 A 8: ELEGIR COLOR.$'
+txtInstruccion5         db '- ENTER: CONFIRMAR INTENTO.$'
+txtInstruccion6         db '- BACKSPACE: BORRAR POSICION.$'
+txtInstruccion7         db '- TORO: COLOR Y POSICION CORRECTOS.$'
+txtInstruccion8         db '- VACA: COLOR CORRECTO, OTRO LUGAR.$'
+txtInstruccion9         db '- F2: INTRODUCIR SECRETO MANUAL.$'
 
 ; ============================================================
 ; 16. TEXTOS DE CREDITOS Y PRESENTACION
 
 txtCreditos1            db 'CRYSTAL QUEST - JUEGO DE GEMAS$'
 txtCreditos2            db 'PROYECTO EIF205 ARQUITECTURA$'
-txtCreditos3            db 'DESARROLLADO POR $'
+txtCreditos3            db 'DESARROLLADO POR MISHIA$'
 
 txtEquipo               db 'MISHIA VALVERDE NARVAEZ$'
 
@@ -166,7 +168,7 @@ txtNivel                db 'NIVEL:$'
 txtToros                db 'T:$'
 txtVacas                db 'V:$'
 
-txtManual               db 'PRUEBA: INGRESE COLORES 1 A 8$'
+txtManual               db 'PRUEBA: INGRESE COLORES DEL 1 AL 8$'
 txtIntentos             db 'INTENTOS RESTANTES$'
 txtActual               db 'INTENTO ACTUAL$'
 

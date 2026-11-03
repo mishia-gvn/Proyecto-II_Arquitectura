@@ -19,12 +19,16 @@ ECHO Enlazando el programa...
 
 IF ERRORLEVEL 1 GOTO ERROR
 
-ECHO Compilacion exitosa.
+ECHO Compilacion exitosa
+ECHO Ejecutando CRYSTAL QUEST...
+
+..\BIN\GEMAS.EXE
+
 GOTO FIN
 
 :ERROR
 
-ECHO Error durante la compilacion o el enlazado.
+ECHO Error durante la compilacion o el enlazado
 
 :FIN
 

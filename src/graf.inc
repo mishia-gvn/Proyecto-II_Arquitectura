@@ -370,6 +370,60 @@ PixelTransparente:
 DibujarSprite ENDP
 
 ; ============================================================
+; DIBUJAR OCHO SPRITES EN UNA FILA
+; ============================================================
+
+DibujarOchoSprites PROC
+
+    push bp
+    mov bp, sp
+
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+    push di
+
+    ; Obtener parametros
+    mov di, [bp+4]     ; Coordenada X inicial
+    mov dx, [bp+6]     ; Coordenada Y
+    mov bx, [bp+8]     ; Separacion entre fichas
+
+    xor si, si         ; Indice del sprite
+
+DOF_Bucle:
+
+    cmp si, 8
+    jae DOF_Fin
+
+    ; Dibujar ficha
+    push si
+    push di
+    push dx
+    call DibujarFicha
+
+    ; Avanzar a la siguiente posicion
+    add di, bx
+    inc si
+
+    jmp DOF_Bucle
+
+DOF_Fin:
+
+    pop di
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop bp
+
+    ret 6
+
+DibujarOchoSprites ENDP
+
+; ============================================================
 
 DibujarBorde PROC
 
@@ -471,3 +525,212 @@ BordeDerecho:
     ret 4
 
 DibujarBorde ENDP
+
+; ============================================================
+; BORRAR BORDE DE SELECCION ANTERIOR
+; Parametros: X, Y (mismo orden que DibujarBorde)
+; Restaura el color de fondo sin borrar la gema.
+; ============================================================
+
+BorrarBorde PROC
+
+    push bp
+    mov bp, sp
+    push ax
+
+    ; Guardar el color actual y dibujar el borde con color 0.
+    mov ah, colorBorde
+    mov colorBorde, 0
+
+    push word ptr [bp+6] ; Y
+    push word ptr [bp+4] ; X
+    call DibujarBorde
+
+    mov colorBorde, ah
+
+    pop ax
+    pop bp
+    ret 4
+
+BorrarBorde ENDP
+
+; ============================================================
+; BORRAR GEMA DE UNA CASILLA (16 x 16)
+; ============================================================
+
+BorrarGema PROC
+
+    push bp
+    mov bp, sp
+    push ax
+
+    ; BorrarRectangulo recibe Y en [bp+4] y X en [bp+6].
+    ; Por eso se apilan primero X y luego Y.
+    push word ptr [bp+4] ; X
+    push word ptr [bp+6] ; Y
+    call BorrarRectangulo
+
+    pop ax
+    pop bp
+    ret 4
+
+BorrarGema ENDP
+
+; ============================================================
+; LIMPIAR PANTALLA VGA
+; ============================================================
+
+LimpiarPantalla PROC
+    push ax
+    push cx
+    push di
+    push es
+
+    mov ax, 0A000h
+    mov es, ax
+
+    xor di, di
+    xor ax, ax
+    mov cx, 32000
+
+    cld
+    rep stosw
+
+    pop es
+    pop di
+    pop cx
+    pop ax
+    ret
+LimpiarPantalla ENDP
+
+; ============================================================
+; BORRAR RECTANGULO DE 16 X 16 PIXELES
+; ============================================================
+
+BorrarRectangulo PROC
+    push bp
+    mov bp, sp
+
+    push ax
+    push bx
+    push cx
+    push dx
+    push di
+    push es
+
+    mov ax, 0A000h
+    mov es, ax
+
+    ; Calcular Y * 320 + X.
+    mov ax, [bp+4]
+    mov bx, 320
+    mul bx
+    add ax, [bp+6]
+    mov di, ax
+
+    mov dx, 16
+
+BR_Fila:
+    push dx
+
+    mov cx, 16
+    xor al, al
+    cld
+    rep stosb
+
+    add di, 304
+
+    pop dx
+    dec dx
+    jnz BR_Fila
+
+    pop es
+    pop di
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop bp
+
+    ret 4
+BorrarRectangulo ENDP
+
+; ============================================================
+; BORRAR BARRA INFERIOR
+; ============================================================
+
+BorrarBarra PROC
+    push ax
+    push cx
+    push di
+    push es
+
+    mov ax, 0A000h
+    mov es, ax
+
+    mov di, 58880
+    mov cx, 2560
+    xor ax, ax
+
+    cld
+    rep stosw
+
+    pop es
+    pop di
+    pop cx
+    pop ax
+    ret
+BorrarBarra ENDP
+
+; ============================================================
+; MOSTRAR NUMERO DE DOS DIGITOS
+; ============================================================
+
+MostrarDigito PROC
+    push bp
+    mov bp, sp
+
+    push ax
+    push bx
+    push dx
+
+    ; Separar decenas y unidades.
+    mov ax, [bp+8]
+    xor dx, dx
+    mov bx, 10
+    div bx
+
+    ; Guardar decenas.
+    add al, '0'
+    mov numeroBuffer, al
+
+    ; Guardar unidades.
+    mov al, dl
+    add al, '0'
+    mov numeroBuffer+1, al
+
+    ; Asegurar el final de la cadena.
+    mov numeroBuffer+2, '$'
+
+    ; Mostrar el resultado.
+    mov ax, 51
+    push ax
+
+    mov ax, [bp+4]
+    push ax
+
+    mov ax, [bp+6]
+    push ax
+
+    mov ax, OFFSET numeroBuffer
+    push ax
+
+    call MostrarTexto
+
+    pop dx
+    pop bx
+    pop ax
+    pop bp
+
+    ret 6
+MostrarDigito ENDP

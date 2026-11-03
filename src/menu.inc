@@ -8,38 +8,23 @@ PantallaPresentacion PROC
     call LimpiarPantalla
     call ConfigurarPaleta
 
-    DIBUJA_TITULO textoTitulo, 48, 35, 51
+    DIBUJA_TITULO textoTitulo, 50, 35, 51
 
-    DIBUJA_TEXTO txtCreditos1, 60, 90, 51
+    DIBUJA_TEXTO txtCreditos1, 52, 90, 51
     DIBUJA_TEXTO txtPulsaEnter, 52, 112, 51
     DIBUJA_TEXTO txtEquipo, 52, 132, 51
 
-    ; Animacion de la gema
-    mov animFrame, 0
-
-PP_Animar:
-    mov ax, 152
-    push ax
-    mov ax, 120
-    push ax
-    call BorrarRectangulo
-
-    xor ax, ax
-    mov al, animFrame
-    and al, 1
+    ; Mostrar ocho sprites en una fila horizontal
+    mov ax, 20       ; Separacion entre sprites
     push ax
 
-    mov ax, 152
+    mov ax, 158      ; Coordenada Y
     push ax
-    mov ax, 120
+
+    mov ax, 82       ; Coordenada X inicial
     push ax
-    call DibujarFicha
 
-    call EsperarTick
-
-    inc animFrame
-    cmp animFrame, 6
-    jb PP_Animar
+    call DibujarOchoSprites
 
     ; Esperar una tecla
     mov ah, 00h
@@ -113,7 +98,6 @@ BorrarIndicador PROC
     ret 4
 
 BorrarIndicador ENDP
-
 
 SeleccionarOpcion PROC
 
@@ -227,11 +211,25 @@ SeleccionarOpcion ENDP
 
 DibujarOpciones PROC
 
-    DIBUJA_TEXTO textoJugar, 120, 75, 63
-    DIBUJA_TEXTO textoDificultad, 120, 95, 63
-    DIBUJA_TEXTO textoInstrucciones, 120, 115, 63
-    DIBUJA_TEXTO textoCreditos, 120, 135, 63
-    DIBUJA_TEXTO textoSalir, 120, 155, 63
+    DIBUJA_TITULO textoTitulo, 50, 28, 51
+
+    DIBUJA_TEXTO textoJugar, 120, 75, 1
+    DIBUJA_TEXTO textoDificultad, 120, 95, 10
+    DIBUJA_TEXTO textoInstrucciones, 120, 115, 19
+    DIBUJA_TEXTO textoCreditos, 120, 135, 27
+    DIBUJA_TEXTO textoSalir, 120, 155, 33
+
+    ; Mostrar ocho sprites en una fila horizontal
+    mov ax, 20       ; Separacion entre sprites
+    push ax
+
+    mov ax, 170      ; Coordenada Y
+    push ax
+
+    mov ax, 82       ; Coordenada X inicial
+    push ax
+
+    call DibujarOchoSprites
 
     ret
 
@@ -242,7 +240,6 @@ MenuRedibujar:
     call LimpiarPantalla
     call ConfigurarPaleta
 
-    DIBUJA_TITULO textoTitulo, 40, 28, 51
     call DibujarOpciones
 
     mov opcionSeleccionada, 0
@@ -315,9 +312,21 @@ PantallaDificultad PROC
 
     DIBUJA_TITULO textoDificultad, 35, 25, 51
 
-    DIBUJA_TEXTO txtFacil, 24, 75, 51
-    DIBUJA_TEXTO txtNormal, 24, 95, 51
-    DIBUJA_TEXTO txtDificil, 24, 115, 51
+    DIBUJA_TEXTO txtFacil, 24, 75, 12
+    DIBUJA_TEXTO txtNormal, 24, 95, 46
+    DIBUJA_TEXTO txtDificil, 24, 115, 48
+
+    ; Mostrar ocho sprites en una fila horizontal
+    mov ax, 20       ; Separacion entre sprites
+    push ax
+
+    mov ax, 158      ; Coordenada Y
+    push ax
+
+    mov ax, 82       ; Coordenada X inicial
+    push ax
+
+    call DibujarOchoSprites
 
     ; Parametros: X = 8, indice inicial = nivelMenu,
     ; cantidad de opciones = 3
@@ -355,17 +364,17 @@ PantallaInstrucciones PROC
 
     DIBUJA_TEXTO textoInstrucciones, 20, 10, 51
 
-    DIBUJA_TEXTO txtInstruccion1, 20, 35, 51
-    DIBUJA_TEXTO txtInstruccion2, 8, 53, 51
-    DIBUJA_TEXTO txtInstruccion3, 8, 68, 51
-    DIBUJA_TEXTO txtInstruccion4, 8, 83, 51
-    DIBUJA_TEXTO txtInstruccion5, 8, 98, 51
-    DIBUJA_TEXTO txtInstruccion6, 8, 113, 51
-    DIBUJA_TEXTO txtInstruccion7, 8, 128, 51
-    DIBUJA_TEXTO txtInstruccion8, 8, 143, 51
-    DIBUJA_TEXTO txtInstruccion9, 8, 158, 51
+    DIBUJA_TEXTO txtInstruccion1, 8, 35, 15
+    DIBUJA_TEXTO txtInstruccion2, 8, 53, 17
+    DIBUJA_TEXTO txtInstruccion3, 8, 68, 18
+    DIBUJA_TEXTO txtInstruccion4, 8, 83, 15
+    DIBUJA_TEXTO txtInstruccion5, 8, 98, 17
+    DIBUJA_TEXTO txtInstruccion6, 8, 113, 18
+    DIBUJA_TEXTO txtInstruccion7, 8, 128, 15
+    DIBUJA_TEXTO txtInstruccion8, 8, 143, 17
+    DIBUJA_TEXTO txtInstruccion9, 8, 158, 18
 
-    DIBUJA_TEXTO txtPulsaEnter, 30, 175, 51
+    DIBUJA_TEXTO txtPulsaEnter, 30, 180, 51
 
     mov ah, 00h
     int 16h
@@ -384,10 +393,23 @@ PantallaCreditos PROC
 
     DIBUJA_TITULO textoCreditos, 40, 35, 51
 
-    DIBUJA_TEXTO txtCreditos1, 40, 85, 51
-    DIBUJA_TEXTO txtCreditos2, 28, 105, 51
-    DIBUJA_TEXTO txtCreditos3, 28, 125, 51
+    DIBUJA_TEXTO txtCreditos1, 28, 85, 28
+    DIBUJA_TEXTO txtCreditos2, 28, 105, 29
+    DIBUJA_TEXTO txtCreditos3, 28, 125, 31
+
     DIBUJA_TEXTO txtPulsaEnter, 28, 175, 51
+
+    ; Mostrar ocho sprites en una fila horizontal
+    mov ax, 20       ; Separacion entre sprites
+    push ax
+
+    mov ax, 145     ; Coordenada Y
+    push ax
+
+    mov ax, 82       ; Coordenada X inicial
+    push ax
+
+    call DibujarOchoSprites
 
     mov ah, 00h
     int 16h
