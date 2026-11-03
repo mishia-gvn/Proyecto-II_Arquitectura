@@ -292,9 +292,7 @@ spriteAmarilla LABEL BYTE
 
     db 0,0,0,0,0,0,0,45,45,0,0,0,0,0,0,0 ; fila 15
 
-
-
-; Cada color son 3 bytes VGA DAC: rojo, verde, azul (0..63).
+; Cada color son 3 bytes VGA DAC: rojo, verde, azul 
 
 ; La tabla contiene los colores para los indices 1..50; el indice 0 se reserva.
 
@@ -399,4 +397,6 @@ paletaGemas LABEL BYTE
     db 63,55,16 ; indice 49: RGB(253,224,66)
 
     db 63,57,23 ; indice 50: RGB(254,232,92)
+
+    db 63,63,63 ; indice 51: RGB(255,255,255)
 
